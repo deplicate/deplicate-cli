@@ -65,8 +65,8 @@ def _notifier(message):
 
 def _get_deplicate_version():
     return pkg_resources.get_distribution('deplicate').version
-    
-    
+
+
 def _find_results(verbose, kwgs):
     core = duplicate.core
     paths = kwgs.pop('paths')
