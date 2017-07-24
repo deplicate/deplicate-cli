@@ -44,22 +44,21 @@ install:
   - pip install -U tox
   # - pip install scrutinizer-ocular
   - pip install tox-travis
-  # - pip install travis-bump-version
 script: tox --skip-missing-interpreters
 after_script:
   - tox -e check
   - tox -e dups
   - tox -e pylint -- -E
-after_success: ocular
+# after_success: ocular
 before_deploy:
   - test $TRAVIS_TEST_RESULT -eq 0
-  - git fetch --tags
+  - test $TRAVIS_OS_NAME = linux
 deploy:
   - provider: pypi
     user:
-      secure: "DBmF/NQ+A+u5Cc0m8pJHoy++xTK656EkjCv4HqZKs9wOUl4MW4OgKtpLWUYCV5iiB6Fwsg5zkzC1RP+g0wfI5vdqByiJvyFmRNiHKJPBqd5/KTaZ5DcOd/r6VHw9Ttik8qc1ErvPKj+ovrI7hGAulUNX80ayo9Zy2m2+VMDoJbNWj8jQPbhU8tzJUtoWKon4KKd2B3Wrp0DQ1f6DCHh0f6u9VGjdqZ7VQn84odBhCSi/Vs6UL6Uw+RVvmPJmbh9NYOq7+D1cw4X26o3o963PRfq1MltbijSP1NLivQ6n39aJ2eJOIS4pLFcnTz3at1NHm84SZUAxFORtFnAC23nxb8DnjV3tl6AXuT/tmrjXQyOGPzkpdnENWHEhet32CAQ8urs+n+ArbuDuubWxLG1Ko45fLcfnTulQyDIhWbbPx84xjxCKNnODtrLT+UVIMUGX1JEXz+ICghlRi/cqFakbHcOWtwsqPkibsnE9NUgo52tRq0XhBOkXM+2Z5ezneEdtIVAfbROuVkUHl6HC5cJcs9+eQxV/i0lp/sK5kTFVbT1BrPaNSF5XcFyqQtd7J9+/0G4Yo8/HeTRaFUSyWhLkAsdWKXkzDKdLKQtr0F9mgIH+vV89WmiJ2FiRdyPR/B5nOhW3wH3bc/0cOFRhnoqrFBWBceIS0CUV/TcCZORlOSY="
+      secure: ""
     password:
-      secure: "b14BPxuNZu1H4NUfwoAbvZPGGiEJZE44jcPxCtoJ9YXfAaWUwt141cxpOahrwc2FVO+YaViDXS1YIc0ZS2Q0vlNLr6yvaq2UGT+HG7DSHd0XtV4LvSgtSpiDE2GfvrPRWCx0bPuM/gP2glZFM1EycKnnf8iMczzi0pW4fyg+vLzpBAuKfo53wWUjE7weSH8iRSS+kJgGag/pZe/DQhD6mHD8X/ePMqqKQJNId6sGIPcXkOU1wX7+MSRJCIrLMVlWavy1JY0ay/FPPXSfVhyTNw1LIyqimVZ6QgqduiluUODNc6R9jC2tnwFxLaetNq5b8iGd2DW+//ppwjHTbfqv0y9c7Qx1gBZzBtK1bIQeUPzHD/paJf3x3Z6Ild8PT/epR8L7DGT3NYOqD5r1a+8XLGFTDueOKnVc/pf5rP/ClAFXOokfntFLMAIGOtAg09p8ZbqCiCP+P/5OPBTsjPL7BvYF/VHZ1H/8BfO2rphcG8WN3R/Z/9J8uEpdVeafeJM50UromhgBobp4RPhV9Ss6KjvLY4/sbCv+HIwzKtvifSHhQ3+O6UiEVhDAsiaTjgswQ5beSvMaugxdK5fsG+hEhwNXOITD62WrgrCMGE/ccbT3h76VnEYoBLe2EiAZqSTUIn4tIK0KO0Qd2baJOxAdZ66UIjmOjj6d1TdymWa8D+Q="
+      secure: ""
     distributions: sdist bdist_wheel
     skip_cleanup: true
     skip_upload_docs: true
@@ -67,12 +66,13 @@ deploy:
       python: 3.5
       tags: true
   - provider: releases
-    api-key: "at1fhKgPQvpOBcuG/NAlCQnwknOkSL5gFarzhVFvyEYZcNr4tggOAL3TiaFOKsNLcRDUNOaT6FoJ2Psr6R0yegarn+kCbfW8zMEqj94gU59dAzrgCL9PV+TIQWi/r3OxXY0Y4D1T30OI8M/F7w9Vk3mcaMqWl+Yw02wMRbyWAzfhGzpWgHM++P1dOhkERNxv+Phw4KDXkYaggEwWxm9Vv/ayWHpFwAXeOJMyER/EQKcD2M59YJXhB0CPUM61fXPnAg01hlh6GZCq9ApcLI8Sw9s/c8uF4r+kT21bdi5wH7KZuyoUAUFe8wiSQaF4bzNZAhun200MBpfFnDLC90xKO/Ce9IBbKq98ktJ7FTSkWnadlzBitFRR8GbyVFnjR10jEs8ujU+ZdWS2H2uB4NFeuyzi3i0TO0cz1GWEnerdfFkasahplRjaut0J4EqAag5PFX4ETLQJcTJ7ObThytYRwCphx3Hfd3E7pARWRQ/gK2sbSLFmqPjpCCiKaFXsiztJkjvcTS00tOUBMrjTZwC2AoBbEU8AmzJyxXr5GlWhq2ovCYf3IOwd7iazu76DIusqXQMGoxg1h5WqZUqKY1kayg0lAq1OV8fV1pgIIY389HbNwJoZ4yMRB9C+hJ/ReSFyswMUQssO5GXsZMkYfxyaADc+tI08aqdGxSsEA61zbUc="
+    api-key:
+      secure: ""
     file_glob: true
     file: dist/*
     skip_cleanup: true
     on:
       python: 3.5
       tags: true
-      all_branches: true
-after_deploy: travis-bump-version --api-token "at1fhKgPQvpOBcuG/NAlCQnwknOkSL5gFarzhVFvyEYZcNr4tggOAL3TiaFOKsNLcRDUNOaT6FoJ2Psr6R0yegarn+kCbfW8zMEqj94gU59dAzrgCL9PV+TIQWi/r3OxXY0Y4D1T30OI8M/F7w9Vk3mcaMqWl+Yw02wMRbyWAzfhGzpWgHM++P1dOhkERNxv+Phw4KDXkYaggEwWxm9Vv/ayWHpFwAXeOJMyER/EQKcD2M59YJXhB0CPUM61fXPnAg01hlh6GZCq9ApcLI8Sw9s/c8uF4r+kT21bdi5wH7KZuyoUAUFe8wiSQaF4bzNZAhun200MBpfFnDLC90xKO/Ce9IBbKq98ktJ7FTSkWnadlzBitFRR8GbyVFnjR10jEs8ujU+ZdWS2H2uB4NFeuyzi3i0TO0cz1GWEnerdfFkasahplRjaut0J4EqAag5PFX4ETLQJcTJ7ObThytYRwCphx3Hfd3E7pARWRQ/gK2sbSLFmqPjpCCiKaFXsiztJkjvcTS00tOUBMrjTZwC2AoBbEU8AmzJyxXr5GlWhq2ovCYf3IOwd7iazu76DIusqXQMGoxg1h5WqZUqKY1kayg0lAq1OV8fV1pgIIY389HbNwJoZ4yMRB9C+hJ/ReSFyswMUQssO5GXsZMkYfxyaADc+tI08aqdGxSsEA61zbUc=" --repo $TRAVIS_REPO_SLUG VERSION
+      name: "${$TRAVIS_REPO_SLUG#*/} ${$TRAVIS_TAG#v}"
+      body: "## Changelog"
