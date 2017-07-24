@@ -2,20 +2,19 @@
 
 from setuptools import setup
 
-
 setup(
     name='deplicate-cli',
     version=open('VERSION').read().strip(),
     description='Command Line Interface for deplicate.',
     long_description=open('README.rst').read(),
     keywords='duplicates dups',
-    url='https://github.com/vuolter/deplicate-cli',
-    download_url='https://github.com/vuolter/deplicate-cli/releases',
+    url='https://github.com/deplicate/cli',
+    download_url='https://github.com/deplicate/cli/releases',
     author='Walter Purcaro',
     author_email='vuolter@gmail.com',
     license='MIT',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
@@ -38,7 +37,8 @@ setup(
     platforms=['any'],
     py_modules=['deplicate_cli'],
     include_package_data=True,
-    install_requires=['click>=4.0', 'deplicate>=0.6.2'],
+    install_requires=['click>=4.0', 'deplicate>=0.9.0'],
+    extras_require={'colorama': ['colorama;os_name=="nt"']},
     python_requires='>=2.6,!=3.0,!=3.1,!=3.2',
     zip_safe=True,
     entry_points={
