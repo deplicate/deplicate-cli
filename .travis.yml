@@ -24,7 +24,7 @@ matrix:
       language: generic
       env: TRAVIS_PYTHON_VERSION=2.7
       python: 2.7
-      before_install: pyenv install $TRAVIS_PYTHON_VERSION
+      before_install: pyenv install 2.7
     - os: osx
       language: generic
       env: TRAVIS_PYTHON_VERSION=3.5
@@ -42,23 +42,21 @@ cache: pip
 install:
   - pip install -U setuptools
   - pip install -U tox
-  # - pip install scrutinizer-ocular
   - pip install tox-travis
 script: tox --skip-missing-interpreters
 after_script:
   - tox -e check
   - tox -e dups
   - tox -e pylint -- -E
-# after_success: ocular
 before_deploy:
   - test $TRAVIS_TEST_RESULT -eq 0
   - test $TRAVIS_OS_NAME = linux
 deploy:
   - provider: pypi
     user:
-      secure: ""
+      secure: "EZCbXCltqX0uzrqE0QMijanRyj+8hA9sCSgeAbXCHVv49YSuO7tDwVlKfDUbuvF2RtH69PCCwFqqvresHSJMYJxvSgHriAh2oZTaevMHPsGwSrI9CKrYawOqziay+aM9Bf1agW1s4zH7mHxgsiCsdYYcj4VhamRHTE8SFExmNemfkRO4bKPPW/qbUP3KXjRNR8j3jS0IJ5umLPNbGsmzlr3FlJdYSbjmRf991dlAWXACz2Q+pe+1ispk/C5fFj5vneicx49r2irZIRhGTLe24QHCdFQldGoKxEsO/c6YA3Maih3QljWkkP8vnBGBDRAmeXQ7W2ZI1slCfMLdwy7fEiuNOW+1qwQKw/oiRr+jeS8wLOt8+ZaWlUlhf9W3+fki2VkgAIrcrwu7ggllNcrYlyU5fT/2Bp6ZlDklHhv8F2LxXUgwH3etexBAF44LXXv2yMCfVzHQgp5uquSXBv4ZgaIwf7uTlBo6McWWr8+1yBu3g1pE14W097g4gvBrPGsL2a4q3Nn3swtiHzMzEPpuAqOUe3tU+ZY1mZuMaeWmtxIW3Zk8q471L8L9ML8SVbsh7h5Fpw3aT7oguPkgFnT3j8uxvZSMTE/xNCl8nt27YKJhLJpCRY8qJZxiB0VF08w9YayJ6ZkjUfxTudz3Zd8hmu0rSS+fnJ8M6p8WjEvVkfM="
     password:
-      secure: ""
+      secure: "cA8bMYnmJlA2phRgOMIySMQQa+oYsj4x9YGeJnCZLMfhjHnGY+qF3Ji4k6CEjf2k0QB2fCBdvgLBxVAI5kYQzdNvFuVUY01JqAF8cWAU4t3Tpl0vTvwopJrNt6x1mfoQu33bn7O7O+BNB1IvrptOiYkCIGKl7Mw5DnHHEmfijN0VTx0FmZuNEFuogwniA1T01MmBDp872qJnToxxcLVDHc1hs42yKKUWTdzFzZV4wBBtzTTk2h8dbUS/9UqkCcIaWhdhF8s8SfTUv33joIZc5XFU3yXfDwTHSr4nV71EhULHyBtpimotdYe4dT9LUQdKdmbqr1j1Gffcr5+1b+ScCLucE78uV7un9CXk7XT1qbKUy6VFAhpGMQ8n6ciZiBSbfGBPhtb2d8VygpEia7EjjsErkY3zVt1fKakUBU5D8FtEekkeA4krmdFDntDygJ+g8PAsNiFmCn0y5zE0bcjpFFotv2b+XNdWqVc3WVe1KK2JKtTyg13aaXRe3pkzlFI7ZE9EPQBkAO2rb6Z6g31Ap1F+pgiYWxCPQV/dF5E6XEchGgsYfjbBrLgeaz5LOuxxKCVBDS1P+fk89stVPiHItL3mL55WwIdfa2/DhPl7O2DS2xaS3j+Ar1fFy6ADvVNJQMdX83cTsdJ0ecqOjKMKnOEA8LYAz3egM1z9NvS1qR0="
     distributions: sdist bdist_wheel
     skip_cleanup: true
     skip_upload_docs: true
@@ -67,7 +65,7 @@ deploy:
       tags: true
   - provider: releases
     api-key:
-      secure: ""
+      secure: "NT3B0/aXwTUty/4krfQzfPbHlF2mv5mHyrfRAUGbaPgKs2wk8/bigFkpv78MzwNFiNRBOEB0OSoPo+1zVZ4nd1UlTUfvEqMgr1eUjhLDJJhfTSLT2OhSugLO6xVDz88nwN2RZBoU7hBxOqrz02CYvGun/mL2pnRRC1u0dI5nHq/R0nMjDQSX82haI6PaFw67tI6rNlONtwgBwKuNW6TJrre6vN2hwrk30DLK9hfvmtHCOJV+IkhYhcG2vfNHiUZuSJzh9117wKeLSUxP1NeWUJCFi6bKx3SV0ZErmzRglEA4pKHvYsTHowCUrxnF+IBWpt6ribwP9JRBc9F1oseT1foooDeGRzx/LXR9uHSP8TDrLpM1xoxjX9uzAwS8vcmnMByTnXxuZBa2pMDRZyPSaS4DtwCJ1JaDYXUrjh0lP21R1ejIG22L+stW1WXhlOHipnYMA2tlCAS0vm655V7kNRPQP7b44KMTrJK5cylR745fKSmqQbUNeBtaM5scuND5WIKafLz9Lf435zMQwkTFsS6oH8O9dID4ElEYPrBPWNIPzjerJQBTYVgcS8ixdklrbQmcLoqFJ5a+/VsHc7nZiz1beLv+I9PRz3SLnRM9qjLWC/DxxrnC9i+6jX4wTna5qY4QizsxGYhQEhrHVhWpUiHxxJnwg3v6f5/1Nqk+X68="
     file_glob: true
     file: dist/*
     skip_cleanup: true
